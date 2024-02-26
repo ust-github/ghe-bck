@@ -1,0 +1,18 @@
+library identifier: 'jenkins-shared-library@gitlab-jsl', retriever: modernSCM(
+  [$class: 'GitSCMSource',
+   remote: 'https://gitlab.dagility.com/solution-factory/sf-jenkins-libraries-mirror',
+   credentialsId: 'scm-cred-id'])
+
+ciMaven{
+    gitCredentialsId = 'scm-cred-id'
+    microserviceName = "ghe-bck"
+    techName = "java"
+    javaBuildCommand = "mvn clean install -DskipTests"
+    javaUnitTestCommand = "mvn test && mvn verify"
+    sonarQualityProfile = "sonarway_and_findbugs_java"
+    sonarQualityGate = "sonar_quality_pace"
+    sonarCommand = "mvn sonar:sonar -Dsonar.projectKey=ghe-bck -Dsonar.projectName=ghe-bck -Dsonar.java.binaries=target -Dsonar.sources=src/main/java/ -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml"
+    devDeployNamespace = "java-ns"
+    devDeployPipeline = "ghe-bck-be-deploy-dev"
+  	registryRepo = "docker-sf"
+}
